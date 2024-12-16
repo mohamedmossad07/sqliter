@@ -1,0 +1,1262 @@
+Terminals unused in grammar
+
+    DOUBLE_Q
+    SINGLE_Q
+    INNER
+    JOIN
+    UNDEFIEND
+
+
+Grammar
+
+    0 $accept: S "END OF FILE"
+
+    1 S: queries "END OF FILE"
+
+    2 queries: ε
+    3        | queries query
+
+    4 query: meta_query
+    5      | sql_query SEMICOLN
+
+    6 meta_query: DOT no_param_meta
+    7           | DOT one_param_meta
+
+    8 no_param_meta: meta_shared_tokens
+
+    9 one_param_meta: meta_shared_tokens IDENTIFIER
+
+   10 meta_shared_tokens: SCHEMA
+   11                   | TABLES
+   12                   | EXIT
+   13                   | SOURCE
+
+   14 sql_query: create_table_query
+   15          | drop_table_query
+   16          | insert_query
+   17          | select_query
+   18          | update_query
+   19          | delete_query
+
+   20 create_table_query: CREATE TABLE IDENTIFIER OPEN_B column_definition_list CLOSE_B
+
+   21 column_definition_list: column_definition
+   22                       | column_definition_list COMMA column_definition
+
+   23 column_definition: IDENTIFIER data_type constraint
+
+   24 data_type: TEXT
+   25          | INT
+   26          | REAL
+
+   27 constraint: ε
+   28           | PRIMARY KEY
+   29           | NOT NULL_
+   30           | UNIQUE
+   31           | AUTOINCREMENT
+   32           | DEFAULT value
+
+   33 drop_table_query: DROP TABLE IDENTIFIER
+
+   34 insert_query: INSERT INTO IDENTIFIER column_inserted VALUES OPEN_B values_list CLOSE_B
+
+   35 column_inserted: ε
+   36                | OPEN_B columns_comma_seperated_list CLOSE_B
+
+   37 columns_comma_seperated_list: IDENTIFIER
+   38                             | columns_comma_seperated_list COMMA IDENTIFIER
+
+   39 values_list: value
+   40            | values_list COMMA value
+
+   41 update_query: UPDATE IDENTIFIER SET comma_sperated_assignments conditional_where
+
+   42 select_query: SELECT select_list FROM IDENTIFIER conditional_where optional_order
+
+   43 optional_order: ε
+   44               | ORDER BY order_by_col_list
+
+   45 order_by_col: IDENTIFIER optional_order_type
+
+   46 order_by_col_list: order_by_col
+   47                  | order_by_col_list COMMA order_by_col
+
+   48 optional_order_type: ε
+   49                    | ASC
+   50                    | DESC
+
+   51 select_list: ASTREISK
+   52            | columns_comma_seperated_list
+
+   53 delete_query: DELETE FROM IDENTIFIER conditional_where
+
+   54 conditional_where: ε
+   55                  | WHERE conditional_assignments
+
+   56 conditional_assignments: conditional_assignment
+   57                        | conditional_assignment and_or_operator conditional_assignments
+
+   58 conditional_assignment: IDENTIFIER conditional_operator value
+
+   59 conditional_operator: EQUAL
+   60                     | NOT_EQUAL
+   61                     | GREATER
+   62                     | LOWER
+   63                     | LOWER_OR_EQUAL
+   64                     | GREATER_OR_EQUAL
+
+   65 and_or_operator: AND
+   66                | OR
+
+   67 comma_sperated_assignments: assignment
+   68                           | comma_sperated_assignments COMMA assignment
+
+   69 assignment: IDENTIFIER EQUAL value
+
+   70 value: STRING
+   71      | INTEGER
+   72      | DOUBLE
+
+
+Terminals, with rules where they appear
+
+    "END OF FILE" (0) 0 1
+    error (256)
+    CREATE (258) 20
+    TABLE (259) 20 33
+    OPEN_B (260) 20 34 36
+    CLOSE_B (261) 20 34 36
+    DOUBLE_Q (262)
+    SINGLE_Q (263)
+    INT (264) 25
+    REAL (265) 26
+    TEXT (266) 24
+    PRIMARY (267) 28
+    KEY (268) 28
+    NOT (269) 29
+    NULL_ (270) 29
+    AUTOINCREMENT (271) 31
+    UNIQUE (272) 30
+    INNER (273)
+    DEFAULT (274) 32
+    JOIN (275)
+    EQUAL (276) 59 69
+    NOT_EQUAL (277) 60
+    GREATER (278) 61
+    LOWER (279) 62
+    LOWER_OR_EQUAL (280) 63
+    GREATER_OR_EQUAL (281) 64
+    SELECT (282) 42
+    ASTREISK (283) 51
+    SEMICOLN (284) 5
+    FROM (285) 42 53
+    WHERE (286) 55
+    ORDER (287) 44
+    BY (288) 44
+    ASC (289) 49
+    DESC (290) 50
+    INSERT (291) 34
+    INTO (292) 34
+    VALUES (293) 34
+    UPDATE (294) 41
+    SET (295) 41
+    AND (296) 65
+    OR (297) 66
+    DROP (298) 33
+    DELETE (299) 53
+    IDENTIFIER <stringval> (300) 9 20 23 33 34 37 38 41 42 45 53 58 69
+    INTEGER <intval> (301) 71
+    STRING <stringval> (302) 70
+    DOUBLE <doubleval> (303) 72
+    COMMA (304) 22 38 40 47 68
+    DOT (305) 6 7
+    SCHEMA <MetaQueryKeywordType_> (306) 10
+    TABLES <MetaQueryKeywordType_> (307) 11
+    EXIT <MetaQueryKeywordType_> (308) 12
+    SOURCE <MetaQueryKeywordType_> (309) 13
+    UNDEFIEND (310)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (56)
+        on left: 0
+    S (57)
+        on left: 1
+        on right: 0
+    queries (58)
+        on left: 2 3
+        on right: 1 3
+    query <QueryType_> (59)
+        on left: 4 5
+        on right: 3
+    meta_query <MetaQueryType_> (60)
+        on left: 6 7
+        on right: 4
+    no_param_meta <NoParamMetaQueryType_> (61)
+        on left: 8
+        on right: 6
+    one_param_meta <OneParamMetaQueryType_> (62)
+        on left: 9
+        on right: 7
+    meta_shared_tokens <MetaQueryKeywordType_> (63)
+        on left: 10 11 12 13
+        on right: 8 9
+    sql_query <SqlQueryType_> (64)
+        on left: 14 15 16 17 18 19
+        on right: 5
+    create_table_query <CreateStatementType> (65)
+        on left: 20
+        on right: 14
+    column_definition_list <ColumnDefinitionType> (66)
+        on left: 21 22
+        on right: 20 22
+    column_definition <ColumnDefinitionType> (67)
+        on left: 23
+        on right: 21 22
+    data_type <DataType_> (68)
+        on left: 24 25 26
+        on right: 23
+    constraint <ConstraintType_> (69)
+        on left: 27 28 29 30 31 32
+        on right: 23
+    drop_table_query <DropStatementType> (70)
+        on left: 33
+        on right: 15
+    insert_query <InsertStatementType> (71)
+        on left: 34
+        on right: 16
+    column_inserted (72)
+        on left: 35 36
+        on right: 34
+    columns_comma_seperated_list (73)
+        on left: 37 38
+        on right: 36 38 52
+    values_list (74)
+        on left: 39 40
+        on right: 34 40
+    update_query <UpdateStatementType> (75)
+        on left: 41
+        on right: 18
+    select_query <SelectStatementType> (76)
+        on left: 42
+        on right: 17
+    optional_order (77)
+        on left: 43 44
+        on right: 42
+    order_by_col <OrderByColumnType> (78)
+        on left: 45
+        on right: 46 47
+    order_by_col_list (79)
+        on left: 46 47
+        on right: 44 47
+    optional_order_type <OrderByType_> (80)
+        on left: 48 49 50
+        on right: 45
+    select_list <CharType> (81)
+        on left: 51 52
+        on right: 42
+    delete_query <DeleteStatementType> (82)
+        on left: 53
+        on right: 19
+    conditional_where <ConditionType_> (83)
+        on left: 54 55
+        on right: 41 42 53
+    conditional_assignments <ConditionType_> (84)
+        on left: 56 57
+        on right: 55 57
+    conditional_assignment <ConditionType_> (85)
+        on left: 58
+        on right: 56 57
+    conditional_operator <Condition_OperatorType_> (86)
+        on left: 59 60 61 62 63 64
+        on right: 58
+    and_or_operator <AND_ORType_> (87)
+        on left: 65 66
+        on right: 57
+    comma_sperated_assignments (88)
+        on left: 67 68
+        on right: 41 68
+    assignment <KeyValueAssignmentType_> (89)
+        on left: 69
+        on right: 67 68
+    value <stringval> (90)
+        on left: 70 71 72
+        on right: 32 39 40 58 69
+
+
+State 0
+
+    0 $accept: • S "END OF FILE"
+
+    $default  reduce using rule 2 (queries)
+
+    S        go to state 1
+    queries  go to state 2
+
+
+State 1
+
+    0 $accept: S • "END OF FILE"
+
+    "END OF FILE"  shift, and go to state 3
+
+
+State 2
+
+    1 S: queries • "END OF FILE"
+    3 queries: queries • query
+
+    "END OF FILE"  shift, and go to state 4
+    CREATE         shift, and go to state 5
+    SELECT         shift, and go to state 6
+    INSERT         shift, and go to state 7
+    UPDATE         shift, and go to state 8
+    DROP           shift, and go to state 9
+    DELETE         shift, and go to state 10
+    DOT            shift, and go to state 11
+
+    query               go to state 12
+    meta_query          go to state 13
+    sql_query           go to state 14
+    create_table_query  go to state 15
+    drop_table_query    go to state 16
+    insert_query        go to state 17
+    update_query        go to state 18
+    select_query        go to state 19
+    delete_query        go to state 20
+
+
+State 3
+
+    0 $accept: S "END OF FILE" •
+
+    $default  accept
+
+
+State 4
+
+    1 S: queries "END OF FILE" •
+
+    $default  reduce using rule 1 (S)
+
+
+State 5
+
+   20 create_table_query: CREATE • TABLE IDENTIFIER OPEN_B column_definition_list CLOSE_B
+
+    TABLE  shift, and go to state 21
+
+
+State 6
+
+   42 select_query: SELECT • select_list FROM IDENTIFIER conditional_where optional_order
+
+    ASTREISK    shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    columns_comma_seperated_list  go to state 24
+    select_list                   go to state 25
+
+
+State 7
+
+   34 insert_query: INSERT • INTO IDENTIFIER column_inserted VALUES OPEN_B values_list CLOSE_B
+
+    INTO  shift, and go to state 26
+
+
+State 8
+
+   41 update_query: UPDATE • IDENTIFIER SET comma_sperated_assignments conditional_where
+
+    IDENTIFIER  shift, and go to state 27
+
+
+State 9
+
+   33 drop_table_query: DROP • TABLE IDENTIFIER
+
+    TABLE  shift, and go to state 28
+
+
+State 10
+
+   53 delete_query: DELETE • FROM IDENTIFIER conditional_where
+
+    FROM  shift, and go to state 29
+
+
+State 11
+
+    6 meta_query: DOT • no_param_meta
+    7           | DOT • one_param_meta
+
+    SCHEMA  shift, and go to state 30
+    TABLES  shift, and go to state 31
+    EXIT    shift, and go to state 32
+    SOURCE  shift, and go to state 33
+
+    no_param_meta       go to state 34
+    one_param_meta      go to state 35
+    meta_shared_tokens  go to state 36
+
+
+State 12
+
+    3 queries: queries query •
+
+    $default  reduce using rule 3 (queries)
+
+
+State 13
+
+    4 query: meta_query •
+
+    $default  reduce using rule 4 (query)
+
+
+State 14
+
+    5 query: sql_query • SEMICOLN
+
+    SEMICOLN  shift, and go to state 37
+
+
+State 15
+
+   14 sql_query: create_table_query •
+
+    $default  reduce using rule 14 (sql_query)
+
+
+State 16
+
+   15 sql_query: drop_table_query •
+
+    $default  reduce using rule 15 (sql_query)
+
+
+State 17
+
+   16 sql_query: insert_query •
+
+    $default  reduce using rule 16 (sql_query)
+
+
+State 18
+
+   18 sql_query: update_query •
+
+    $default  reduce using rule 18 (sql_query)
+
+
+State 19
+
+   17 sql_query: select_query •
+
+    $default  reduce using rule 17 (sql_query)
+
+
+State 20
+
+   19 sql_query: delete_query •
+
+    $default  reduce using rule 19 (sql_query)
+
+
+State 21
+
+   20 create_table_query: CREATE TABLE • IDENTIFIER OPEN_B column_definition_list CLOSE_B
+
+    IDENTIFIER  shift, and go to state 38
+
+
+State 22
+
+   51 select_list: ASTREISK •
+
+    $default  reduce using rule 51 (select_list)
+
+
+State 23
+
+   37 columns_comma_seperated_list: IDENTIFIER •
+
+    $default  reduce using rule 37 (columns_comma_seperated_list)
+
+
+State 24
+
+   38 columns_comma_seperated_list: columns_comma_seperated_list • COMMA IDENTIFIER
+   52 select_list: columns_comma_seperated_list •
+
+    COMMA  shift, and go to state 39
+
+    $default  reduce using rule 52 (select_list)
+
+
+State 25
+
+   42 select_query: SELECT select_list • FROM IDENTIFIER conditional_where optional_order
+
+    FROM  shift, and go to state 40
+
+
+State 26
+
+   34 insert_query: INSERT INTO • IDENTIFIER column_inserted VALUES OPEN_B values_list CLOSE_B
+
+    IDENTIFIER  shift, and go to state 41
+
+
+State 27
+
+   41 update_query: UPDATE IDENTIFIER • SET comma_sperated_assignments conditional_where
+
+    SET  shift, and go to state 42
+
+
+State 28
+
+   33 drop_table_query: DROP TABLE • IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 43
+
+
+State 29
+
+   53 delete_query: DELETE FROM • IDENTIFIER conditional_where
+
+    IDENTIFIER  shift, and go to state 44
+
+
+State 30
+
+   10 meta_shared_tokens: SCHEMA •
+
+    $default  reduce using rule 10 (meta_shared_tokens)
+
+
+State 31
+
+   11 meta_shared_tokens: TABLES •
+
+    $default  reduce using rule 11 (meta_shared_tokens)
+
+
+State 32
+
+   12 meta_shared_tokens: EXIT •
+
+    $default  reduce using rule 12 (meta_shared_tokens)
+
+
+State 33
+
+   13 meta_shared_tokens: SOURCE •
+
+    $default  reduce using rule 13 (meta_shared_tokens)
+
+
+State 34
+
+    6 meta_query: DOT no_param_meta •
+
+    $default  reduce using rule 6 (meta_query)
+
+
+State 35
+
+    7 meta_query: DOT one_param_meta •
+
+    $default  reduce using rule 7 (meta_query)
+
+
+State 36
+
+    8 no_param_meta: meta_shared_tokens •
+    9 one_param_meta: meta_shared_tokens • IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 45
+
+    $default  reduce using rule 8 (no_param_meta)
+
+
+State 37
+
+    5 query: sql_query SEMICOLN •
+
+    $default  reduce using rule 5 (query)
+
+
+State 38
+
+   20 create_table_query: CREATE TABLE IDENTIFIER • OPEN_B column_definition_list CLOSE_B
+
+    OPEN_B  shift, and go to state 46
+
+
+State 39
+
+   38 columns_comma_seperated_list: columns_comma_seperated_list COMMA • IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 47
+
+
+State 40
+
+   42 select_query: SELECT select_list FROM • IDENTIFIER conditional_where optional_order
+
+    IDENTIFIER  shift, and go to state 48
+
+
+State 41
+
+   34 insert_query: INSERT INTO IDENTIFIER • column_inserted VALUES OPEN_B values_list CLOSE_B
+
+    OPEN_B  shift, and go to state 49
+
+    $default  reduce using rule 35 (column_inserted)
+
+    column_inserted  go to state 50
+
+
+State 42
+
+   41 update_query: UPDATE IDENTIFIER SET • comma_sperated_assignments conditional_where
+
+    IDENTIFIER  shift, and go to state 51
+
+    comma_sperated_assignments  go to state 52
+    assignment                  go to state 53
+
+
+State 43
+
+   33 drop_table_query: DROP TABLE IDENTIFIER •
+
+    $default  reduce using rule 33 (drop_table_query)
+
+
+State 44
+
+   53 delete_query: DELETE FROM IDENTIFIER • conditional_where
+
+    WHERE  shift, and go to state 54
+
+    $default  reduce using rule 54 (conditional_where)
+
+    conditional_where  go to state 55
+
+
+State 45
+
+    9 one_param_meta: meta_shared_tokens IDENTIFIER •
+
+    $default  reduce using rule 9 (one_param_meta)
+
+
+State 46
+
+   20 create_table_query: CREATE TABLE IDENTIFIER OPEN_B • column_definition_list CLOSE_B
+
+    IDENTIFIER  shift, and go to state 56
+
+    column_definition_list  go to state 57
+    column_definition       go to state 58
+
+
+State 47
+
+   38 columns_comma_seperated_list: columns_comma_seperated_list COMMA IDENTIFIER •
+
+    $default  reduce using rule 38 (columns_comma_seperated_list)
+
+
+State 48
+
+   42 select_query: SELECT select_list FROM IDENTIFIER • conditional_where optional_order
+
+    WHERE  shift, and go to state 54
+
+    $default  reduce using rule 54 (conditional_where)
+
+    conditional_where  go to state 59
+
+
+State 49
+
+   36 column_inserted: OPEN_B • columns_comma_seperated_list CLOSE_B
+
+    IDENTIFIER  shift, and go to state 23
+
+    columns_comma_seperated_list  go to state 60
+
+
+State 50
+
+   34 insert_query: INSERT INTO IDENTIFIER column_inserted • VALUES OPEN_B values_list CLOSE_B
+
+    VALUES  shift, and go to state 61
+
+
+State 51
+
+   69 assignment: IDENTIFIER • EQUAL value
+
+    EQUAL  shift, and go to state 62
+
+
+State 52
+
+   41 update_query: UPDATE IDENTIFIER SET comma_sperated_assignments • conditional_where
+   68 comma_sperated_assignments: comma_sperated_assignments • COMMA assignment
+
+    WHERE  shift, and go to state 54
+    COMMA  shift, and go to state 63
+
+    $default  reduce using rule 54 (conditional_where)
+
+    conditional_where  go to state 64
+
+
+State 53
+
+   67 comma_sperated_assignments: assignment •
+
+    $default  reduce using rule 67 (comma_sperated_assignments)
+
+
+State 54
+
+   55 conditional_where: WHERE • conditional_assignments
+
+    IDENTIFIER  shift, and go to state 65
+
+    conditional_assignments  go to state 66
+    conditional_assignment   go to state 67
+
+
+State 55
+
+   53 delete_query: DELETE FROM IDENTIFIER conditional_where •
+
+    $default  reduce using rule 53 (delete_query)
+
+
+State 56
+
+   23 column_definition: IDENTIFIER • data_type constraint
+
+    INT   shift, and go to state 68
+    REAL  shift, and go to state 69
+    TEXT  shift, and go to state 70
+
+    data_type  go to state 71
+
+
+State 57
+
+   20 create_table_query: CREATE TABLE IDENTIFIER OPEN_B column_definition_list • CLOSE_B
+   22 column_definition_list: column_definition_list • COMMA column_definition
+
+    CLOSE_B  shift, and go to state 72
+    COMMA    shift, and go to state 73
+
+
+State 58
+
+   21 column_definition_list: column_definition •
+
+    $default  reduce using rule 21 (column_definition_list)
+
+
+State 59
+
+   42 select_query: SELECT select_list FROM IDENTIFIER conditional_where • optional_order
+
+    ORDER  shift, and go to state 74
+
+    $default  reduce using rule 43 (optional_order)
+
+    optional_order  go to state 75
+
+
+State 60
+
+   36 column_inserted: OPEN_B columns_comma_seperated_list • CLOSE_B
+   38 columns_comma_seperated_list: columns_comma_seperated_list • COMMA IDENTIFIER
+
+    CLOSE_B  shift, and go to state 76
+    COMMA    shift, and go to state 39
+
+
+State 61
+
+   34 insert_query: INSERT INTO IDENTIFIER column_inserted VALUES • OPEN_B values_list CLOSE_B
+
+    OPEN_B  shift, and go to state 77
+
+
+State 62
+
+   69 assignment: IDENTIFIER EQUAL • value
+
+    INTEGER  shift, and go to state 78
+    STRING   shift, and go to state 79
+    DOUBLE   shift, and go to state 80
+
+    value  go to state 81
+
+
+State 63
+
+   68 comma_sperated_assignments: comma_sperated_assignments COMMA • assignment
+
+    IDENTIFIER  shift, and go to state 51
+
+    assignment  go to state 82
+
+
+State 64
+
+   41 update_query: UPDATE IDENTIFIER SET comma_sperated_assignments conditional_where •
+
+    $default  reduce using rule 41 (update_query)
+
+
+State 65
+
+   58 conditional_assignment: IDENTIFIER • conditional_operator value
+
+    EQUAL             shift, and go to state 83
+    NOT_EQUAL         shift, and go to state 84
+    GREATER           shift, and go to state 85
+    LOWER             shift, and go to state 86
+    LOWER_OR_EQUAL    shift, and go to state 87
+    GREATER_OR_EQUAL  shift, and go to state 88
+
+    conditional_operator  go to state 89
+
+
+State 66
+
+   55 conditional_where: WHERE conditional_assignments •
+
+    $default  reduce using rule 55 (conditional_where)
+
+
+State 67
+
+   56 conditional_assignments: conditional_assignment •
+   57                        | conditional_assignment • and_or_operator conditional_assignments
+
+    AND  shift, and go to state 90
+    OR   shift, and go to state 91
+
+    $default  reduce using rule 56 (conditional_assignments)
+
+    and_or_operator  go to state 92
+
+
+State 68
+
+   25 data_type: INT •
+
+    $default  reduce using rule 25 (data_type)
+
+
+State 69
+
+   26 data_type: REAL •
+
+    $default  reduce using rule 26 (data_type)
+
+
+State 70
+
+   24 data_type: TEXT •
+
+    $default  reduce using rule 24 (data_type)
+
+
+State 71
+
+   23 column_definition: IDENTIFIER data_type • constraint
+
+    PRIMARY        shift, and go to state 93
+    NOT            shift, and go to state 94
+    AUTOINCREMENT  shift, and go to state 95
+    UNIQUE         shift, and go to state 96
+    DEFAULT        shift, and go to state 97
+
+    $default  reduce using rule 27 (constraint)
+
+    constraint  go to state 98
+
+
+State 72
+
+   20 create_table_query: CREATE TABLE IDENTIFIER OPEN_B column_definition_list CLOSE_B •
+
+    $default  reduce using rule 20 (create_table_query)
+
+
+State 73
+
+   22 column_definition_list: column_definition_list COMMA • column_definition
+
+    IDENTIFIER  shift, and go to state 56
+
+    column_definition  go to state 99
+
+
+State 74
+
+   44 optional_order: ORDER • BY order_by_col_list
+
+    BY  shift, and go to state 100
+
+
+State 75
+
+   42 select_query: SELECT select_list FROM IDENTIFIER conditional_where optional_order •
+
+    $default  reduce using rule 42 (select_query)
+
+
+State 76
+
+   36 column_inserted: OPEN_B columns_comma_seperated_list CLOSE_B •
+
+    $default  reduce using rule 36 (column_inserted)
+
+
+State 77
+
+   34 insert_query: INSERT INTO IDENTIFIER column_inserted VALUES OPEN_B • values_list CLOSE_B
+
+    INTEGER  shift, and go to state 78
+    STRING   shift, and go to state 79
+    DOUBLE   shift, and go to state 80
+
+    values_list  go to state 101
+    value        go to state 102
+
+
+State 78
+
+   71 value: INTEGER •
+
+    $default  reduce using rule 71 (value)
+
+
+State 79
+
+   70 value: STRING •
+
+    $default  reduce using rule 70 (value)
+
+
+State 80
+
+   72 value: DOUBLE •
+
+    $default  reduce using rule 72 (value)
+
+
+State 81
+
+   69 assignment: IDENTIFIER EQUAL value •
+
+    $default  reduce using rule 69 (assignment)
+
+
+State 82
+
+   68 comma_sperated_assignments: comma_sperated_assignments COMMA assignment •
+
+    $default  reduce using rule 68 (comma_sperated_assignments)
+
+
+State 83
+
+   59 conditional_operator: EQUAL •
+
+    $default  reduce using rule 59 (conditional_operator)
+
+
+State 84
+
+   60 conditional_operator: NOT_EQUAL •
+
+    $default  reduce using rule 60 (conditional_operator)
+
+
+State 85
+
+   61 conditional_operator: GREATER •
+
+    $default  reduce using rule 61 (conditional_operator)
+
+
+State 86
+
+   62 conditional_operator: LOWER •
+
+    $default  reduce using rule 62 (conditional_operator)
+
+
+State 87
+
+   63 conditional_operator: LOWER_OR_EQUAL •
+
+    $default  reduce using rule 63 (conditional_operator)
+
+
+State 88
+
+   64 conditional_operator: GREATER_OR_EQUAL •
+
+    $default  reduce using rule 64 (conditional_operator)
+
+
+State 89
+
+   58 conditional_assignment: IDENTIFIER conditional_operator • value
+
+    INTEGER  shift, and go to state 78
+    STRING   shift, and go to state 79
+    DOUBLE   shift, and go to state 80
+
+    value  go to state 103
+
+
+State 90
+
+   65 and_or_operator: AND •
+
+    $default  reduce using rule 65 (and_or_operator)
+
+
+State 91
+
+   66 and_or_operator: OR •
+
+    $default  reduce using rule 66 (and_or_operator)
+
+
+State 92
+
+   57 conditional_assignments: conditional_assignment and_or_operator • conditional_assignments
+
+    IDENTIFIER  shift, and go to state 65
+
+    conditional_assignments  go to state 104
+    conditional_assignment   go to state 67
+
+
+State 93
+
+   28 constraint: PRIMARY • KEY
+
+    KEY  shift, and go to state 105
+
+
+State 94
+
+   29 constraint: NOT • NULL_
+
+    NULL_  shift, and go to state 106
+
+
+State 95
+
+   31 constraint: AUTOINCREMENT •
+
+    $default  reduce using rule 31 (constraint)
+
+
+State 96
+
+   30 constraint: UNIQUE •
+
+    $default  reduce using rule 30 (constraint)
+
+
+State 97
+
+   32 constraint: DEFAULT • value
+
+    INTEGER  shift, and go to state 78
+    STRING   shift, and go to state 79
+    DOUBLE   shift, and go to state 80
+
+    value  go to state 107
+
+
+State 98
+
+   23 column_definition: IDENTIFIER data_type constraint •
+
+    $default  reduce using rule 23 (column_definition)
+
+
+State 99
+
+   22 column_definition_list: column_definition_list COMMA column_definition •
+
+    $default  reduce using rule 22 (column_definition_list)
+
+
+State 100
+
+   44 optional_order: ORDER BY • order_by_col_list
+
+    IDENTIFIER  shift, and go to state 108
+
+    order_by_col       go to state 109
+    order_by_col_list  go to state 110
+
+
+State 101
+
+   34 insert_query: INSERT INTO IDENTIFIER column_inserted VALUES OPEN_B values_list • CLOSE_B
+   40 values_list: values_list • COMMA value
+
+    CLOSE_B  shift, and go to state 111
+    COMMA    shift, and go to state 112
+
+
+State 102
+
+   39 values_list: value •
+
+    $default  reduce using rule 39 (values_list)
+
+
+State 103
+
+   58 conditional_assignment: IDENTIFIER conditional_operator value •
+
+    $default  reduce using rule 58 (conditional_assignment)
+
+
+State 104
+
+   57 conditional_assignments: conditional_assignment and_or_operator conditional_assignments •
+
+    $default  reduce using rule 57 (conditional_assignments)
+
+
+State 105
+
+   28 constraint: PRIMARY KEY •
+
+    $default  reduce using rule 28 (constraint)
+
+
+State 106
+
+   29 constraint: NOT NULL_ •
+
+    $default  reduce using rule 29 (constraint)
+
+
+State 107
+
+   32 constraint: DEFAULT value •
+
+    $default  reduce using rule 32 (constraint)
+
+
+State 108
+
+   45 order_by_col: IDENTIFIER • optional_order_type
+
+    ASC   shift, and go to state 113
+    DESC  shift, and go to state 114
+
+    $default  reduce using rule 48 (optional_order_type)
+
+    optional_order_type  go to state 115
+
+
+State 109
+
+   46 order_by_col_list: order_by_col •
+
+    $default  reduce using rule 46 (order_by_col_list)
+
+
+State 110
+
+   44 optional_order: ORDER BY order_by_col_list •
+   47 order_by_col_list: order_by_col_list • COMMA order_by_col
+
+    COMMA  shift, and go to state 116
+
+    $default  reduce using rule 44 (optional_order)
+
+
+State 111
+
+   34 insert_query: INSERT INTO IDENTIFIER column_inserted VALUES OPEN_B values_list CLOSE_B •
+
+    $default  reduce using rule 34 (insert_query)
+
+
+State 112
+
+   40 values_list: values_list COMMA • value
+
+    INTEGER  shift, and go to state 78
+    STRING   shift, and go to state 79
+    DOUBLE   shift, and go to state 80
+
+    value  go to state 117
+
+
+State 113
+
+   49 optional_order_type: ASC •
+
+    $default  reduce using rule 49 (optional_order_type)
+
+
+State 114
+
+   50 optional_order_type: DESC •
+
+    $default  reduce using rule 50 (optional_order_type)
+
+
+State 115
+
+   45 order_by_col: IDENTIFIER optional_order_type •
+
+    $default  reduce using rule 45 (order_by_col)
+
+
+State 116
+
+   47 order_by_col_list: order_by_col_list COMMA • order_by_col
+
+    IDENTIFIER  shift, and go to state 108
+
+    order_by_col  go to state 118
+
+
+State 117
+
+   40 values_list: values_list COMMA value •
+
+    $default  reduce using rule 40 (values_list)
+
+
+State 118
+
+   47 order_by_col_list: order_by_col_list COMMA order_by_col •
+
+    $default  reduce using rule 47 (order_by_col_list)

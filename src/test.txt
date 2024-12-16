@@ -1,0 +1,2 @@
+.tables x.tables.schema CREATE table x (age INT);select * from d;CREATE table x (email REAL,name TEXT,age INT);insert into s(a,s,w) values("fref",22,33);
+update tabo set co = 12, col2 = 212 where id > "te" and name <= "hellop";delete from tab where id = 11;select * from tab where id = 22 and w>32 order by fr desc, ed3 asc;

@@ -1,0 +1,39 @@
+<metadata>   ::= CREATE TABLE <table_name> (<column_definition_list>)
+<column_definition_list>   ::= <column_definition> [, <column_definition_list>]
+<column_definition>   ::= <column_name> <data_type> [<column_constraints>]
+<column_name>   ::= <identifier>
+<data_type>   ::= INTEGER | REAL | TEXT | BLOB
+<column_constraints>   ::= PRIMARY KEY | NOT NULL | UNIQUE | AUTOINCREMENT | DEFAULT <value>
+<table_name>   ::= <identifier>
+
+<join> ::= <table> <join_type> <table> ON <condition>
+<join_type> ::= INNER JOIN | LEFT JOIN | RIGHT JOIN | FULL JOIN
+<condition> ::= <column> <operator> <column>
+
+<table> ::= <identifier>
+<column> ::= <identifier>
+<operator> ::= = | <> | < | > | <= | >=
+
+<identifier> ::= [a-zA-Z][a-zA-Z0-9]*
+
+<query>         ::= <select_query> | <insert_query> | <update_query> | <delete_query>
+<select_query>  ::= SELECT <select_list> FROM <table_list> [WHERE <condition>] [ORDER BY <column> [ASC|DESC]]
+<insert_query>  ::= INSERT INTO <table> [(<column_list>)] VALUES (<value_list>)
+<update_query>  ::= UPDATE <table> SET <assignment_list> [WHERE <condition>]
+<delete_query>  ::= DELETE FROM <table> [WHERE <condition>]
+<select_list>   ::= <column_list> | *
+<column_list>   ::= <column> [, <column_list>]
+<table_list>    ::= <table> [, <table_list>]
+<assignment_list> ::= <assignment> [, <assignment_list>]
+<assignment>    ::= <column> = <value>
+<condition>     ::= <column> <operator> <value>
+<operator>      ::= = | <> | < | > | <= | >=
+<column>        ::= <identifier>
+<table>         ::= <identifier>
+<identifier>    ::= [a-zA-Z][a-zA-Z0-9_]*
+<value>         ::= <string> | <number>
+<string>        ::= '<text>'
+<number>        ::= <integer> | <float>
+<integer>       ::= [0-9]+
+<float>         ::= [0-9]+.[0-9]+
+<text>          ::= [a-zA-Z0-9_ ]*
